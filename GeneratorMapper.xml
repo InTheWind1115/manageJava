@@ -38,7 +38,7 @@
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
         <!-- 数据库表名及对应的 Java 模型类名 -->
-        <table tableName="t_department_admin" domainObjectName="DepartmentAdmin"
+        <table tableName="t_user_info" domainObjectName="UserInfo"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
@@ -46,27 +46,6 @@
                 selectByExampleQueryId="false"/>
 
         <table tableName="t_department_information" domainObjectName="DepartmentInformation"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-
-        <table tableName="t_school_admin" domainObjectName="SchoolAdmin"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-
-        <table tableName="t_student" domainObjectName="Student"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-
-        <table tableName="t_teacher" domainObjectName="Teacher"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

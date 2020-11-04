@@ -7,7 +7,7 @@ public class User {
 
     private String password;
 
-    private Byte limit;
+    private Byte authority;
 
     private Byte status;
 
@@ -35,12 +35,12 @@ public class User {
         this.password = password;
     }
 
-    public Byte getLimit() {
-        return limit;
+    public Byte getAuthority() {
+        return authority;
     }
 
-    public void setLimit(Byte limit) {
-        this.limit = limit;
+    public void setAuthority(Byte authority) {
+        this.authority = authority;
     }
 
     public Byte getStatus() {

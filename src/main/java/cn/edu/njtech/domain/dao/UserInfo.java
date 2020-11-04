@@ -2,7 +2,7 @@ package cn.edu.njtech.domain.dao;
 
 import java.util.Date;
 
-public class SchoolAdmin {
+public class UserInfo {
     private Integer id;
 
     private String userId;
@@ -23,7 +23,7 @@ public class SchoolAdmin {
 
     private String incumbency;
 
-    private Byte limit;
+    private Byte authority;
 
     private String phone;
 
@@ -109,12 +109,12 @@ public class SchoolAdmin {
         this.incumbency = incumbency;
     }
 
-    public Byte getLimit() {
-        return limit;
+    public Byte getAuthority() {
+        return authority;
     }
 
-    public void setLimit(Byte limit) {
-        this.limit = limit;
+    public void setAuthority(Byte authority) {
+        this.authority = authority;
     }
 
     public String getPhone() {

@@ -5,11 +5,11 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="limit" jdbcType="TINYINT" property="limit" />
+    <result column="authority" jdbcType="TINYINT" property="authority" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, password, limit, status
+    id, user_id, password, authority, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,9 +23,9 @@
   </delete>
   <insert id="insert" parameterType="cn.edu.njtech.domain.dao.User">
     insert into t_user (id, user_id, password, 
-      limit, status)
+      authority, status)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{limit,jdbcType=TINYINT}, #{status,jdbcType=TINYINT})
+      #{authority,jdbcType=TINYINT}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.njtech.domain.dao.User">
     insert into t_user
@@ -39,8 +39,8 @@
       <if test="password != null">
         password,
       </if>
-      <if test="limit != null">
-        limit,
+      <if test="authority != null">
+        authority,
       </if>
       <if test="status != null">
         status,
@@ -56,8 +56,8 @@
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
       </if>
-      <if test="limit != null">
-        #{limit,jdbcType=TINYINT},
+      <if test="authority != null">
+        #{authority,jdbcType=TINYINT},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -73,8 +73,8 @@
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="limit != null">
-        limit = #{limit,jdbcType=TINYINT},
+      <if test="authority != null">
+        authority = #{authority,jdbcType=TINYINT},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
@@ -86,7 +86,7 @@
     update t_user
     set user_id = #{userId,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
-      limit = #{limit,jdbcType=TINYINT},
+      authority = #{authority,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -1,15 +1,9 @@
 package cn.edu.njtech.service.impl;
 
-import cn.edu.njtech.domain.dao.DepartmentAdmin;
-import cn.edu.njtech.domain.dao.SchoolAdmin;
-import cn.edu.njtech.domain.dao.Student;
-import cn.edu.njtech.domain.dao.Teacher;
-import cn.edu.njtech.mapper.DepartmentAdminMapper;
-import cn.edu.njtech.mapper.SchoolAdminMapper;
-import cn.edu.njtech.mapper.StudentMapper;
-import cn.edu.njtech.mapper.TeacherMapper;
+
+import cn.edu.njtech.domain.dao.UserInfo;
+import cn.edu.njtech.mapper.UserInfoMapper;
 import cn.edu.njtech.service.UsersService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,16 +14,7 @@ import java.util.List;
 public class UsersServiceImpl implements UsersService {
 
     @Resource
-    SchoolAdminMapper schoolAdminMapper;
-
-    @Resource
-    DepartmentAdminMapper departmentAdminMapper;
-
-    @Resource
-    TeacherMapper teacherMapper;
-
-    @Resource
-    StudentMapper studentMapper;
+    UserInfoMapper userInfoMapper;
 
     /**
      *
@@ -80,6 +65,11 @@ public class UsersServiceImpl implements UsersService {
         return (LinkedList) list;
     }
 
+    @Override
+    public UserInfo queryUserByUserId(String userId) {
+        return userInfoMapper.selectUserByUserId(userId);
+    }
+
 
     /**
      * @author 刘成
@@ -91,49 +81,16 @@ public class UsersServiceImpl implements UsersService {
      * 用来查询所在学院 专业/部门 的某身份的用户，返回一个LinkedList集合
      */
     public LinkedList queryUsersByStatus(Byte status, String academy, String department) {
-        SchoolAdmin schoolAdmin = null;
-        DepartmentAdmin departmentAdmin = null;
-        Teacher teacher = null;
-        Student student = null;
         List list = new LinkedList();
-        if (status == 1) {
-            schoolAdmin = new SchoolAdmin();
-            if (!"-1".equals(academy)) {
-                schoolAdmin.setAcademy(academy);
-            }
-            if (!"-1".equals(department)) {
-                schoolAdmin.setDepartment(academy);
-            }
-            list = schoolAdminMapper.selectUsersSlective(schoolAdmin);
-        } else if (status == 2) {
-            departmentAdmin = new DepartmentAdmin();
-            if (!"-1".equals(academy)) {
-                departmentAdmin.setAcademy(academy);
-            }
-            if (!"-1".equals(department)) {
-                departmentAdmin.setDepartment(department);
-            }
-            list = departmentAdminMapper.selectUsersSlective(departmentAdmin);
-
-        } else if (status == 3) {
-            teacher = new Teacher();
-            if (!"-1".equals(academy)) {
-                teacher.setAcademy(academy);
-            }
-            if (!"-1".equals(department)) {
-                teacher.setDepartment(department);
-            }
-            list = teacherMapper.selectUsersSlective(teacher);
-        } else if (status == 4) {
-            student = new Student();
-            if (!"-1".equals(academy)) {
-                student.setAcademy(academy);
-            }
-            if (!"-1".equals(department)) {
-                student.setDepartment(department);
-            }
-            list = studentMapper.selectUsersSlective(student);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setStatus(status);
+        if (!"-1".equals(academy)) {
+            userInfo.setAcademy(academy);
         }
+        if (!"-1".equals(department)) {
+            userInfo.setDepartment(academy);
+        }
+        list = userInfoMapper.selectUsersSelective(userInfo);
         return (LinkedList) list;
     }
 }
