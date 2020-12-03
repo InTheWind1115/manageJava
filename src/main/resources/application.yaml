@@ -9,3 +9,13 @@ spring:
     url: jdbc:mysql://rm-2ze575n2705ri67z4qo.mysql.rds.aliyuncs.com/web?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: liucheng
     password: dacheng1115
+
+jwt:
+  key:
+    pubKeyPath: E:\\auth_key\\rsa_key.pub
+    priKeyPath: E:\\auth_key\\rsa_key
+
+#打印sql，方便调试
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

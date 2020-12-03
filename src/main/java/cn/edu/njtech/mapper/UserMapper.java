@@ -1,17 +1,10 @@
 package cn.edu.njtech.mapper;
 
-import cn.edu.njtech.domain.dao.User;
+
+import cn.edu.njtech.domain.SysUser;
 
 public interface UserMapper {
-    int deleteByPrimaryKey(Integer id);
+    public SysUser findByUsername(String username);
 
-    int insert(User record);
-
-    int insertSelective(User record);
-
-    User selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(User record);
-
-    int updateByPrimaryKey(User record);
+    int updateMessageByUserId(String formId, String userId);
 }

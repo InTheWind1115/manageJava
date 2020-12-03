@@ -9,11 +9,11 @@ public class UserInfo {
 
     private String name;
 
-    private Byte sex;
+    private Integer sex;
 
     private Date birthdate;
 
-    private Byte status;
+    private Integer status;
 
     private String department;
 
@@ -23,7 +23,7 @@ public class UserInfo {
 
     private String incumbency;
 
-    private Byte authority;
+    private Integer authority;
 
     private String phone;
 
@@ -53,11 +53,11 @@ public class UserInfo {
         this.name = name;
     }
 
-    public Byte getSex() {
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(Byte sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 
@@ -69,11 +69,11 @@ public class UserInfo {
         this.birthdate = birthdate;
     }
 
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -109,11 +109,11 @@ public class UserInfo {
         this.incumbency = incumbency;
     }
 
-    public Byte getAuthority() {
+    public Integer getAuthority() {
         return authority;
     }
 
-    public void setAuthority(Byte authority) {
+    public void setAuthority(Integer authority) {
         this.authority = authority;
     }
 

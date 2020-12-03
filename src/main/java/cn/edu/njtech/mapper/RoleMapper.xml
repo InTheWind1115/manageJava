@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.njtech.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="cn.edu.njtech.domain.SysRole">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        <result column="role_desc" jdbcType="VARCHAR" property="roleDesc" />
+    </resultMap>
+    <select id="findByUid" resultMap="BaseResultMap">
+        select r.id, r.role_name, r.role_desc
+        from t_role r, t_user_role ur
+        where r.id = ur.rid and ur.uid = #{userId}
+    </select>
+</mapper>

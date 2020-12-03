@@ -1,8 +1,12 @@
 package cn.edu.njtech.service.impl;
 
 
+import cn.edu.njtech.domain.dao.Form;
 import cn.edu.njtech.domain.dao.UserInfo;
+import cn.edu.njtech.mapper.FormMapper;
 import cn.edu.njtech.mapper.UserInfoMapper;
+import cn.edu.njtech.mapper.UserMapper;
+import cn.edu.njtech.mapper.UserRoleMapper;
 import cn.edu.njtech.service.UsersService;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,15 @@ public class UsersServiceImpl implements UsersService {
     @Resource
     UserInfoMapper userInfoMapper;
 
+    @Resource
+    UserRoleMapper userRoleMapper;
+
+    @Resource
+    FormMapper formMapper;
+
+    @Resource
+    UserMapper userMapper;
+
     /**
      *
      * @param status 身份
@@ -25,13 +38,12 @@ public class UsersServiceImpl implements UsersService {
      * @return LinkedList集合
      */
     @Override
-    public LinkedList queryUsers(Byte status, String academy, String department, Byte myLimit) {
+    public LinkedList queryUsers(int status, String academy, String department, int myLimit) {
         List list = new LinkedList();
         switch (status) {
             case -1:
                 switch (myLimit) {
                     case 1:
-                        list.addAll(this.queryUsersByStatus((byte) 1, academy, department));
                         list.addAll(this.queryUsersByStatus((byte) 2, academy, department));
                         list.addAll(this.queryUsersByStatus((byte) 3, academy, department));
                         list.addAll(this.queryUsersByStatus((byte) 4, academy, department));
@@ -48,7 +60,6 @@ public class UsersServiceImpl implements UsersService {
                 }
                 break;
             case 1:
-                list.addAll(this.queryUsersByStatus((byte) 1, academy, department));
                 break;
             case 2:
                 list.addAll(this.queryUsersByStatus((byte) 2, academy, department));
@@ -70,6 +81,69 @@ public class UsersServiceImpl implements UsersService {
         return userInfoMapper.selectUserByUserId(userId);
     }
 
+    @Override
+    public int queryUserRoleByUserId(String userId) {
+        String userRole = userRoleMapper.selectUserRoleByUserId(userId);
+        int res = 4;
+        switch (userRole) {
+            case "ROLE_USER":
+                res = 4;
+                break;
+            case "ROLE_TEACHER":
+                res = 3;
+                break;
+            case "ROLE_ADMIN":
+                res = 2;
+                break;
+            case "ROLE_SUPERADMIN":
+                res = 1;
+                break;
+        }
+        return res;
+    }
+
+    @Override
+    public int updateUserRoleByUserId(String userId, int limit) {
+        String roleName = null;
+        roleName = convertLimitNumToStr(limit);
+        return userRoleMapper.updateUserRoleByUserId(userId, roleName);
+    }
+
+    @Override
+    public int updateUsersRoleByUserId(UserInfo userInfo, int limit, int myLimit) {
+        String roleName = convertLimitNumToStr(limit);
+        return userRoleMapper.updateUsersRoleByUserId(userInfo, roleName, myLimit);
+    }
+
+    @Override
+    public int insertForm(Form form) {
+        return formMapper.insertSelective(form);
+    }
+
+    @Override
+    public int updateUserMessageByUserId(String formId, String userId) {
+        return userMapper.updateMessageByUserId("," + formId, userId);
+    }
+
+
+    public String convertLimitNumToStr(int limit) {
+        String roleName = "";
+        switch (limit) {
+            case 4:
+                roleName = "ROLE_USER";
+                break;
+            case 3:
+                roleName = "ROLE_TEACHER";
+                break;
+            case 2:
+                roleName = "ROLE_ADMIN";
+                break;
+            case 1:
+                roleName = "ROLE_SUPERADMIN";
+                break;
+        }
+        return roleName;
+    }
 
     /**
      * @author 刘成
@@ -80,7 +154,7 @@ public class UsersServiceImpl implements UsersService {
      * @return
      * 用来查询所在学院 专业/部门 的某身份的用户，返回一个LinkedList集合
      */
-    public LinkedList queryUsersByStatus(Byte status, String academy, String department) {
+    public LinkedList queryUsersByStatus(int status, String academy, String department) {
         List list = new LinkedList();
         UserInfo userInfo = new UserInfo();
         userInfo.setStatus(status);

@@ -2,7 +2,7 @@ package cn.edu.njtech.mapper;
 
 import cn.edu.njtech.domain.dao.UserInfo;
 
-import java.util.LinkedList;
+import java.util.List;
 
 public interface UserInfoMapper {
     int deleteByPrimaryKey(Integer id);
@@ -17,8 +17,7 @@ public interface UserInfoMapper {
 
     int updateByPrimaryKey(UserInfo record);
 
-    LinkedList<UserInfo> selectUsersSelective(UserInfo user);
+    List selectUsersSelective(UserInfo userInfo);
 
     UserInfo selectUserByUserId(String userId);
-
 }

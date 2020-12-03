@@ -5,14 +5,14 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="sex" jdbcType="TINYINT" property="sex" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
     <result column="birthdate" jdbcType="DATE" property="birthdate" />
-    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="department" jdbcType="VARCHAR" property="department" />
     <result column="academy" jdbcType="VARCHAR" property="academy" />
     <result column="position" jdbcType="VARCHAR" property="position" />
     <result column="incumbency" jdbcType="VARCHAR" property="incumbency" />
-    <result column="authority" jdbcType="TINYINT" property="authority" />
+    <result column="authority" jdbcType="INTEGER" property="authority" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="address" jdbcType="VARCHAR" property="address" />
   </resultMap>
@@ -37,9 +37,9 @@
       incumbency, authority, phone, 
       address)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=TINYINT}, #{birthdate,jdbcType=DATE}, #{status,jdbcType=TINYINT}, 
+      #{sex,jdbcType=INTEGER}, #{birthdate,jdbcType=DATE}, #{status,jdbcType=INTEGER}, 
       #{department,jdbcType=VARCHAR}, #{academy,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, 
-      #{incumbency,jdbcType=VARCHAR}, #{authority,jdbcType=TINYINT}, #{phone,jdbcType=VARCHAR}, 
+      #{incumbency,jdbcType=VARCHAR}, #{authority,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.njtech.domain.dao.UserInfo">
@@ -96,13 +96,13 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
-        #{sex,jdbcType=TINYINT},
+        #{sex,jdbcType=INTEGER},
       </if>
       <if test="birthdate != null">
         #{birthdate,jdbcType=DATE},
       </if>
       <if test="status != null">
-        #{status,jdbcType=TINYINT},
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="department != null">
         #{department,jdbcType=VARCHAR},
@@ -117,7 +117,7 @@
         #{incumbency,jdbcType=VARCHAR},
       </if>
       <if test="authority != null">
-        #{authority,jdbcType=TINYINT},
+        #{authority,jdbcType=INTEGER},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
@@ -137,13 +137,13 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
-        sex = #{sex,jdbcType=TINYINT},
+        sex = #{sex,jdbcType=INTEGER},
       </if>
       <if test="birthdate != null">
         birthdate = #{birthdate,jdbcType=DATE},
       </if>
       <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="department != null">
         department = #{department,jdbcType=VARCHAR},
@@ -157,8 +157,8 @@
       <if test="incumbency != null">
         incumbency = #{incumbency,jdbcType=VARCHAR},
       </if>
-      <if test="limit != null">
-        limit = #{limit,jdbcType=TINYINT},
+      <if test="authority != null">
+        authority = #{authority,jdbcType=INTEGER},
       </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
@@ -173,69 +173,69 @@
     update t_user_info
     set user_id = #{userId,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=TINYINT},
+      sex = #{sex,jdbcType=INTEGER},
       birthdate = #{birthdate,jdbcType=DATE},
-      status = #{status,jdbcType=TINYINT},
+      status = #{status,jdbcType=INTEGER},
       department = #{department,jdbcType=VARCHAR},
       academy = #{academy,jdbcType=VARCHAR},
       position = #{position,jdbcType=VARCHAR},
       incumbency = #{incumbency,jdbcType=VARCHAR},
-      limit = #{limit,jdbcType=TINYINT},
+      authority = #{authority,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <select id="selectUsersSelective" parameterType="cn.edu.njtech.domain.dao.UserInfo" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from t_user_info
-    <trim prefix="where " suffixOverrides=" and">
+    select * from t_user_info
+    <trim prefix="where" prefixOverrides="and">
       <if test="id != null">
-        id = #{id} and
+        and id = #{id,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
-        user_id = #{userId} and
+        and user_id = #{userId,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
-        name = #{name} and
+        and name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
-        sex = #{sex} and
+        and sex = #{sex,jdbcType=INTEGER},
       </if>
       <if test="birthdate != null">
-        birthdate = #{birthdate} and
+        and birthdate = #{birthdate,jdbcType=DATE},
       </if>
       <if test="status != null">
-        status = #{status} and
+        and status = #{status,jdbcType=INTEGER},
       </if>
       <if test="department != null">
-        department = #{department} and
+        and department = #{department,jdbcType=VARCHAR},
       </if>
       <if test="academy != null">
-        academy = #{academy} and
+        and academy = #{academy,jdbcType=VARCHAR},
       </if>
       <if test="position != null">
-        position = #{position} and
+        and position = #{position,jdbcType=VARCHAR},
       </if>
       <if test="incumbency != null">
-        incumbency = #{incumbency} and
+        and incumbency = #{incumbency,jdbcType=VARCHAR},
       </if>
       <if test="authority != null">
-        authority = #{authority} and
+        and authority = #{authority,jdbcType=INTEGER},
       </if>
       <if test="phone != null">
-        phone = #{phone} and
+        and phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="address != null">
-        address = #{address} and
+        and address = #{address,jdbcType=VARCHAR},
       </if>
     </trim>
   </select>
 
-  <select id="selectUserByUserId" resultMap="BaseResultMap">
+  <select id="selectUserByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from t_user_info
-    where user_id = #{userId}
+    where user_id = #{userId,jdbcType=VARCHAR}
   </select>
+
 </mapper>
