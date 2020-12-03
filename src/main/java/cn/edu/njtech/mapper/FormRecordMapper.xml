@@ -90,4 +90,8 @@
       write_content = #{writeContent,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectsRecordForms" resultMap="BaseResultMap">
+    select * from t_form_record WHERE form_id = #{formId}
+  </select>
 </mapper>

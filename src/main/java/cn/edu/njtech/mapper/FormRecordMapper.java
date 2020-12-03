@@ -2,6 +2,8 @@ package cn.edu.njtech.mapper;
 
 import cn.edu.njtech.domain.dao.FormRecord;
 
+import java.util.List;
+
 public interface FormRecordMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface FormRecordMapper {
     int updateByPrimaryKeySelective(FormRecord record);
 
     int updateByPrimaryKey(FormRecord record);
+
+    List<FormRecord> selectsRecordForms(String formId);
 }

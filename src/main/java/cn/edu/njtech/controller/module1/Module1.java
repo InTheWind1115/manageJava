@@ -6,6 +6,7 @@ import cn.edu.njtech.domain.Store;
 import cn.edu.njtech.domain.SysRole;
 import cn.edu.njtech.domain.SysUser;
 import cn.edu.njtech.domain.dao.Form;
+import cn.edu.njtech.domain.dao.FormRecord;
 import cn.edu.njtech.domain.dao.UserInfo;
 import cn.edu.njtech.domain.json.Result;
 import cn.edu.njtech.service.UsersService;
@@ -340,7 +341,7 @@ public class Module1 {
         form.setReceiver("" + status + "," + department + "," + academy);
         form.setIsSuper(user.getRoles().get(0).getRoleName() == "ROLE_SUPERADMIN"? 1 : 0);
         usersService.insertForm(form);
-        usersService.updateUserMessageByUserId(formId, status, department, academy);
+        usersService.updateUsersMessageByUserId(formId, status, department, academy);
 
         // 通过websocket通知用户的填写
 
@@ -348,6 +349,133 @@ public class Module1 {
         mess.setSuccess(true);
         mess.setMessage("操作成功！");
         mess.setCode(200);
+        result = objectMapper.writeValueAsString(mess);
+        return result;
+    }
+
+    @GetMapping("formwrite")
+    @ResponseBody
+    public String formWrite(HttpServletRequest request) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Result mess = new Result();
+        String result;
+        String formId = request.getParameter("formid");
+        String formContent = request.getParameter("formcontent");
+        String token = store.getToken();
+        RsaKeyProperties prop = store.getProp();
+        Payload<SysUser> payload = JwtUtils.getInfoFromToken(token.replace("Bearer ", ""), prop.getPublicKey(), SysUser.class);
+        SysUser user = payload.getUserInfo();
+        FormRecord formRecord = new FormRecord();
+        formRecord.setFormId("," + formId);
+        formRecord.setWriter(user.getUsername());
+        Date date = new Date();
+        long timeNow = date.getTime();
+        date.setTime(timeNow);
+        formRecord.setWriteTime(date);
+        formRecord.setWriteContent(formContent);
+
+        // 写入数据库
+        int number = usersService.insertFormRecord(formRecord);
+        int number2 = 0;
+
+        // 写入操作成功
+        if (number != 0) {
+            number2 = usersService.replaceUserMessageById(user.getUsername(), formId);
+        }
+
+        // 操作失败
+        if (number2 * number == 0) {
+            mess.setSuccess(false);
+            mess.setMessage("操作失败！");
+            mess.setCode(500);
+            result = objectMapper.writeValueAsString(mess);
+            return result;
+        }
+        mess.setSuccess(true);
+        mess.setMessage("操作成功！");
+        mess.setCode(200);
+        result = objectMapper.writeValueAsString(mess);
+        return result;
+    }
+
+    @GetMapping("/aboutform")
+    @ResponseBody
+    public String aboutForm(HttpServletRequest request) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Result mess = new Result();
+        String result;
+        String formId = request.getParameter("formid");
+        String token = store.getToken();
+        RsaKeyProperties prop = store.getProp();
+        Payload<SysUser> payload = JwtUtils.getInfoFromToken(token.replace("Bearer ", ""), prop.getPublicKey(), SysUser.class);
+        SysUser user = payload.getUserInfo();
+        int myLimit = 0;
+        List<SysRole> roleList = user.getRoles();
+        myLimit = getMyLimit(roleList);
+
+        // 权限为4和3(学生和老师)直接排除
+        if (myLimit == 4 || myLimit == 3) {
+            mess.setSuccess(false);
+            mess.setMessage("您的权限不够！");
+            mess.setCode(403);
+            result = objectMapper.writeValueAsString(mess);
+            return result;
+        }
+
+        List<FormRecord> formRecords = usersService.selectRecordForms(formId);
+
+        if (formRecords.size() != 0) {
+            mess.setSuccess(true);
+            mess.setMessage("操作成功");
+            mess.setCode(200);
+            mess.setResult(formRecords);
+            result = objectMapper.writeValueAsString(mess);
+            return result;
+        }
+        mess.setSuccess(false);
+        mess.setMessage("未知错误！");
+        mess.setCode(500);
+        result = objectMapper.writeValueAsString(mess);
+        return result;
+    }
+
+
+    @GetMapping("/formselect")
+    @ResponseBody
+    public String formSelect(HttpServletRequest request) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Result mess = new Result();
+        String result;
+        String token = store.getToken();
+        RsaKeyProperties prop = store.getProp();
+        Payload<SysUser> payload = JwtUtils.getInfoFromToken(token.replace("Bearer ", ""), prop.getPublicKey(), SysUser.class);
+        SysUser user = payload.getUserInfo();
+        int myLimit = 0;
+        List<SysRole> roleList = user.getRoles();
+        myLimit = getMyLimit(roleList);
+
+        // 权限为4和3(学生和老师)直接排除
+        if (myLimit == 4 || myLimit == 3) {
+            mess.setSuccess(false);
+            mess.setMessage("您的权限不够！");
+            mess.setCode(403);
+            result = objectMapper.writeValueAsString(mess);
+            return result;
+        }
+
+        List<Form> forms = usersService.selectForms();
+
+        if (forms.size() != 0) {
+            mess.setSuccess(true);
+            mess.setMessage("操作成功");
+            mess.setCode(200);
+            mess.setResult(forms);
+            result = objectMapper.writeValueAsString(mess);
+            return result;
+        }
+        mess.setSuccess(false);
+        mess.setMessage("未知错误！");
+        mess.setCode(500);
         result = objectMapper.writeValueAsString(mess);
         return result;
     }

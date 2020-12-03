@@ -38,4 +38,15 @@ public class RsaUtilsTest {
         Date date = new Date();
         System.out.println(dateFormat.format(date.getTime()));
     }
+
+    @Test
+    public void testSplit() {
+
+        String str = "123,456";
+        String[] s = str.split(",");
+        System.out.println(s.length);
+        for (int i = 0; i < s.length; i++) {
+            System.out.println(s[i]);
+        }
+    }
 }

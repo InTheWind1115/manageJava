@@ -14,4 +14,22 @@
     <update id="updateMessageByUserId">
         update t_user set message = concat(#{formId}, message) where username = #{userId}
     </update>
+
+    <update id="updateMessages">
+        update t_user u, t_user_info ui
+        set u.message = concat(#{formId}, u.message)
+        where
+        u.username = ui.user_id
+        and ui.status = #{status}
+        and ui.department = #{department}
+        and ui.academy = #{academy}
+    </update>
+
+    <update id="replaceUserMessageById">
+        update t_user set message = replace(message, #{formId}, '') where username = #{username}
+    </update>
+
+    <select id="selectUserMessage" resultType="string">
+        select message from t_user where username = #{username}
+    </select>
 </mapper>

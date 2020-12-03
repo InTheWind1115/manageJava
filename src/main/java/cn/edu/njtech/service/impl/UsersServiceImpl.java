@@ -2,11 +2,9 @@ package cn.edu.njtech.service.impl;
 
 
 import cn.edu.njtech.domain.dao.Form;
+import cn.edu.njtech.domain.dao.FormRecord;
 import cn.edu.njtech.domain.dao.UserInfo;
-import cn.edu.njtech.mapper.FormMapper;
-import cn.edu.njtech.mapper.UserInfoMapper;
-import cn.edu.njtech.mapper.UserMapper;
-import cn.edu.njtech.mapper.UserRoleMapper;
+import cn.edu.njtech.mapper.*;
 import cn.edu.njtech.service.UsersService;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +26,9 @@ public class UsersServiceImpl implements UsersService {
 
     @Resource
     UserMapper userMapper;
+
+    @Resource
+    FormRecordMapper formRecordMapper;
 
     /**
      *
@@ -123,6 +124,41 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public int updateUserMessageByUserId(String formId, String userId) {
         return userMapper.updateMessageByUserId("," + formId, userId);
+    }
+
+    @Override
+    public int updateUsersMessageByUserId(String formId, int status, String department, String academy) {
+        return userMapper.updateMessages("," + formId, status, department, academy);
+    }
+
+    @Override
+    public int insertFormRecord(FormRecord formRecord) {
+        return formRecordMapper.insertSelective(formRecord);
+    }
+
+    @Override
+    public int replaceUserMessageById(String username, String formId) {
+        return userMapper.replaceUserMessageById(username, formId);
+    }
+
+    @Override
+    public List<FormRecord> selectRecordForms(String formId) {
+        return formRecordMapper.selectsRecordForms(formId);
+    }
+
+    @Override
+    public List<Form> selectForms() {
+        return formMapper.selectForms();
+    }
+
+    @Override
+    public String queryUserMessage(String username) {
+        return userMapper.selectUserMessage(username);
+    }
+
+    @Override
+    public Form queryFormByFormId(String formId) {
+        return formMapper.selectFormByFormId(formId);
     }
 
 
