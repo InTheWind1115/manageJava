@@ -190,43 +190,43 @@
     select * from t_user_info
     <trim prefix="where" prefixOverrides="and">
       <if test="id != null">
-        and id = #{id,jdbcType=INTEGER},
+        and id = #{id,jdbcType=INTEGER}
       </if>
       <if test="userId != null">
-        and user_id = #{userId,jdbcType=VARCHAR},
+        and user_id = #{userId,jdbcType=VARCHAR}
       </if>
       <if test="name != null">
-        and name = #{name,jdbcType=VARCHAR},
+        and name = #{name,jdbcType=VARCHAR}
       </if>
       <if test="sex != null">
-        and sex = #{sex,jdbcType=INTEGER},
+        and sex = #{sex,jdbcType=INTEGER}
       </if>
       <if test="birthdate != null">
-        and birthdate = #{birthdate,jdbcType=DATE},
+        and birthdate = #{birthdate,jdbcType=DATE}
       </if>
       <if test="status != null">
-        and status = #{status,jdbcType=INTEGER},
+        and status = #{status,jdbcType=INTEGER}
       </if>
       <if test="department != null">
-        and department = #{department,jdbcType=VARCHAR},
+        and department = #{department,jdbcType=VARCHAR}
       </if>
       <if test="academy != null">
-        and academy = #{academy,jdbcType=VARCHAR},
+        and academy = #{academy,jdbcType=VARCHAR}
       </if>
       <if test="position != null">
-        and position = #{position,jdbcType=VARCHAR},
+        and position = #{position,jdbcType=VARCHAR}
       </if>
       <if test="incumbency != null">
-        and incumbency = #{incumbency,jdbcType=VARCHAR},
+        and incumbency = #{incumbency,jdbcType=VARCHAR}
       </if>
       <if test="authority != null">
-        and authority = #{authority,jdbcType=INTEGER},
+        and authority = #{authority,jdbcType=INTEGER}
       </if>
       <if test="phone != null">
-        and phone = #{phone,jdbcType=VARCHAR},
+        and phone = #{phone,jdbcType=VARCHAR}
       </if>
       <if test="address != null">
-        and address = #{address,jdbcType=VARCHAR},
+        and address = #{address,jdbcType=VARCHAR}
       </if>
     </trim>
   </select>

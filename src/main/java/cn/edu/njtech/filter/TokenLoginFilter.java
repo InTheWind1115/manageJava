@@ -4,6 +4,7 @@ import cn.edu.njtech.configuration.RsaKeyProperties;
 import cn.edu.njtech.controller.module1.Module1;
 import cn.edu.njtech.domain.SysRole;
 import cn.edu.njtech.domain.SysUser;
+import cn.edu.njtech.domain.json.Result;
 import cn.edu.njtech.utils.JwtUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,12 +50,14 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
             try {
                 //如果认证失败，提供自定义json格式异常
                 res.setContentType("application/json;charset=utf-8");
-                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                res.setStatus(HttpServletResponse.SC_OK);
                 PrintWriter out = res.getWriter();
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("code", HttpServletResponse.SC_UNAUTHORIZED);
-                map.put("message", "账号或密码错误！");
-                out.write(new ObjectMapper().writeValueAsString(map));
+                Result result = new Result();
+                result.setSuccess(false);
+                result.setMessage("账号或密码错误!");
+                result.setCode(401);
+                out.write(new ObjectMapper().writeValueAsString(result));
                 out.flush();
                 out.close();
             } catch (Exception e1) {
@@ -80,10 +83,16 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
             res.setContentType("application/json;charset=utf-8");
             res.setStatus(HttpServletResponse.SC_OK);
             PrintWriter out = res.getWriter();
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("code", HttpServletResponse.SC_OK);
-            map.put("message", "登陆成功！");
-            out.write(new ObjectMapper().writeValueAsString(map));
+//            Map<String, Object> map = new HashMap<String, Object>();
+//            map.put("code", HttpServletResponse.SC_OK);
+//            map.put("message", "登陆成功！");
+
+            Result result = new Result();
+            result.setSuccess(true);
+            result.setMessage("登录成功!");
+            result.setCode(200);
+
+            out.write(new ObjectMapper().writeValueAsString(result));
             out.flush();
             out.close();
         } catch (Exception e1) {

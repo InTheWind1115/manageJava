@@ -9,6 +9,7 @@ import cn.edu.njtech.service.UsersService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,8 +40,8 @@ public class UsersServiceImpl implements UsersService {
      * @return LinkedList集合
      */
     @Override
-    public LinkedList queryUsers(int status, String academy, String department, int myLimit) {
-        List list = new LinkedList();
+    public List queryUsers(int status, String academy, String department, int myLimit) {
+        List list = new ArrayList();
         switch (status) {
             case -1:
                 switch (myLimit) {
@@ -74,7 +75,7 @@ public class UsersServiceImpl implements UsersService {
             default:
                 break;
         }
-        return (LinkedList) list;
+        return list;
     }
 
     @Override
@@ -190,17 +191,17 @@ public class UsersServiceImpl implements UsersService {
      * @return
      * 用来查询所在学院 专业/部门 的某身份的用户，返回一个LinkedList集合
      */
-    public LinkedList queryUsersByStatus(int status, String academy, String department) {
-        List list = new LinkedList();
+    public List queryUsersByStatus(int status, String academy, String department) {
+        List list = new ArrayList();
         UserInfo userInfo = new UserInfo();
         userInfo.setStatus(status);
         if (!"-1".equals(academy)) {
             userInfo.setAcademy(academy);
         }
         if (!"-1".equals(department)) {
-            userInfo.setDepartment(academy);
+            userInfo.setDepartment(department);
         }
         list = userInfoMapper.selectUsersSelective(userInfo);
-        return (LinkedList) list;
+        return list;
     }
 }

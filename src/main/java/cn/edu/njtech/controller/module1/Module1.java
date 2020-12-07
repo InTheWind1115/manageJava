@@ -78,7 +78,7 @@ public class Module1 {
             result = objectMapper.writeValueAsString(mess);
             return result;
         }
-        LinkedList users = usersService.queryUsers(status, academy, department, myLimit);
+        List users = usersService.queryUsers(status, academy, department, myLimit);
         mess.setSuccess(true);
         mess.setMessage("操作成功!");
         mess.setCode(200);

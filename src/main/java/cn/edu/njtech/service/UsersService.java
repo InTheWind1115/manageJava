@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public interface UsersService {
-    LinkedList queryUsers(int status, String academy, String department, int myLimit);
+    List queryUsers(int status, String academy, String department, int myLimit);
 
     UserInfo queryUserByUserId(String userId);
 
