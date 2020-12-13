@@ -1,14 +1,21 @@
 package cn.edu.njtech.domain;
 
 import cn.edu.njtech.configuration.RsaKeyProperties;
+import cn.edu.njtech.service.UsersService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 @Component
 public class Store {
 
     String token;
 
-    RsaKeyProperties prop;
+    @Autowired
+    static UsersService usersService;
+
+    private static RsaKeyProperties prop;
 
     public String getToken() {
         return token;
@@ -18,11 +25,15 @@ public class Store {
         this.token = token;
     }
 
-    public RsaKeyProperties getProp() {
+    public static RsaKeyProperties getProp() {
         return prop;
     }
 
     public void setProp(RsaKeyProperties prop) {
         this.prop = prop;
+    }
+
+    public static UsersService getUsersService() {
+        return usersService;
     }
 }

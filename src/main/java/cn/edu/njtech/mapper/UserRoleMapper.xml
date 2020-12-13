@@ -18,7 +18,7 @@
         and ui.academy = #{userInfo.academy}
         and r.role_name = #{roleName}
         and ur.uid = ui.user_id
-        and ur.rid > r.id
-        and ur.rid > #{myLimit}
+        and ur.rid &lt; r.id
+        and ur.rid &lt; #{myLimit}
     </update>
 </mapper>

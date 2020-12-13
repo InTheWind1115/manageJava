@@ -89,9 +89,9 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
             Result result = new Result();
             result.setSuccess(true);
-            result.setMessage("登录成功!");
+            result.setMessage(user.getUsername());
             result.setCode(200);
-
+            result.setResult(user.getAuthorities());
             out.write(new ObjectMapper().writeValueAsString(result));
             out.flush();
             out.close();

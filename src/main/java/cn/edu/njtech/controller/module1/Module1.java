@@ -22,10 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Controller
 public class Module1 {
@@ -42,9 +39,6 @@ public class Module1 {
     public String test() throws JsonProcessingException {
         System.out.println(store.getToken());
         return "sdfjsdfkjsldf";
-//        UserInfo userInfo = usersService.queryUserByUserId("201821017000");
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        return objectMapper.writeValueAsString(userInfo);
     }
 
     @RequestMapping("/product")
@@ -63,7 +57,7 @@ public class Module1 {
         String academy = request.getParameter("academy");
         String department = request.getParameter("department");
 
-        String token = store.getToken();
+        String token = request.getHeader("Authorization");
         RsaKeyProperties prop = store.getProp();
         Payload<SysUser> payload = JwtUtils.getInfoFromToken(token.replace("Bearer ", ""), prop.getPublicKey(), SysUser.class);
         SysUser user = payload.getUserInfo();
@@ -122,7 +116,7 @@ public class Module1 {
         String result;
         String user_id = request.getParameter("userid");
 
-        String token = store.getToken();
+        String token = request.getHeader("Authorization");
         RsaKeyProperties prop = store.getProp();
         Payload<SysUser> payload = JwtUtils.getInfoFromToken(token.replace("Bearer ", ""), prop.getPublicKey(), SysUser.class);
         SysUser user = payload.getUserInfo();
@@ -165,7 +159,7 @@ public class Module1 {
         String result;
         String userId = request.getParameter("userid");
         int limit = Integer.parseInt(request.getParameter("limit"));
-        String token = store.getToken();
+        String token = request.getHeader("Authorization");
         RsaKeyProperties prop = store.getProp();
         Payload<SysUser> payload = JwtUtils.getInfoFromToken(token.replace("Bearer ", ""), prop.getPublicKey(), SysUser.class);
         SysUser user = payload.getUserInfo();
@@ -211,7 +205,7 @@ public class Module1 {
         String academy = request.getParameter("academy");
         String department = request.getParameter(("department"));
         int limit = Integer.parseInt(request.getParameter("limit"));
-        String token = store.getToken();
+        String token = request.getHeader("Authorization");
         RsaKeyProperties prop = store.getProp();
         Payload<SysUser> payload = JwtUtils.getInfoFromToken(token.replace("Bearer ", ""), prop.getPublicKey(), SysUser.class);
         SysUser user = payload.getUserInfo();
@@ -229,9 +223,12 @@ public class Module1 {
         }
 
         UserInfo userInfo = new UserInfo();
-        userInfo.setStatus(status);
-        userInfo.setAcademy(academy);
-        userInfo.setDepartment(department);
+        if (status != -1)
+            userInfo.setStatus(status);
+        if (!"-1".equals(academy))
+            userInfo.setAcademy(academy);
+        if (!"-1".equals(department))
+            userInfo.setDepartment(department);
 
         usersService.updateUsersRoleByUserId(userInfo, limit, myLimit);
 
@@ -250,7 +247,7 @@ public class Module1 {
         String result;
         String userId = request.getParameter("userid");
         String formContent = request.getParameter("formcontent");
-        String token = store.getToken();
+        String token = request.getHeader("Authorization");
         RsaKeyProperties prop = store.getProp();
         Payload<SysUser> payload = JwtUtils.getInfoFromToken(token.replace("Bearer ", ""), prop.getPublicKey(), SysUser.class);
         SysUser user = payload.getUserInfo();
@@ -312,7 +309,7 @@ public class Module1 {
         String academy = request.getParameter("academy");
         String department = request.getParameter("department");
         String formContent = request.getParameter("formcontent");
-        String token = store.getToken();
+        String token = request.getHeader("Authorization");
         RsaKeyProperties prop = store.getProp();
         Payload<SysUser> payload = JwtUtils.getInfoFromToken(token.replace("Bearer ", ""), prop.getPublicKey(), SysUser.class);
         SysUser user = payload.getUserInfo();
@@ -353,7 +350,7 @@ public class Module1 {
         return result;
     }
 
-    @GetMapping("formwrite")
+    @GetMapping("/formwrite")
     @ResponseBody
     public String formWrite(HttpServletRequest request) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -361,12 +358,12 @@ public class Module1 {
         String result;
         String formId = request.getParameter("formid");
         String formContent = request.getParameter("formcontent");
-        String token = store.getToken();
+        String token = request.getHeader("Authorization");
         RsaKeyProperties prop = store.getProp();
         Payload<SysUser> payload = JwtUtils.getInfoFromToken(token.replace("Bearer ", ""), prop.getPublicKey(), SysUser.class);
         SysUser user = payload.getUserInfo();
         FormRecord formRecord = new FormRecord();
-        formRecord.setFormId("," + formId);
+        formRecord.setFormId(formId);
         formRecord.setWriter(user.getUsername());
         Date date = new Date();
         long timeNow = date.getTime();
@@ -405,7 +402,7 @@ public class Module1 {
         Result mess = new Result();
         String result;
         String formId = request.getParameter("formid");
-        String token = store.getToken();
+        String token = request.getHeader("Authorization");
         RsaKeyProperties prop = store.getProp();
         Payload<SysUser> payload = JwtUtils.getInfoFromToken(token.replace("Bearer ", ""), prop.getPublicKey(), SysUser.class);
         SysUser user = payload.getUserInfo();
@@ -446,7 +443,7 @@ public class Module1 {
         ObjectMapper objectMapper = new ObjectMapper();
         Result mess = new Result();
         String result;
-        String token = store.getToken();
+        String token = request.getHeader("Authorization");
         RsaKeyProperties prop = store.getProp();
         Payload<SysUser> payload = JwtUtils.getInfoFromToken(token.replace("Bearer ", ""), prop.getPublicKey(), SysUser.class);
         SysUser user = payload.getUserInfo();
@@ -486,5 +483,31 @@ public class Module1 {
             res += new Random().nextInt(10);
         }
         return res;
+    }
+
+    @GetMapping("/selectreceive")
+    @ResponseBody
+    public String selectReceive(HttpServletRequest request) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Result mess = new Result();
+        String result;
+        String token = request.getHeader("Authorization");
+        RsaKeyProperties prop = store.getProp();
+        Payload<SysUser> payload = JwtUtils.getInfoFromToken(token.replace("Bearer ", ""), prop.getPublicKey(), SysUser.class);
+        SysUser user = payload.getUserInfo();
+        String messages = usersService.queryUserMessage(user.getUsername());
+        String[] formIds = messages.split(",");
+        List<Form> forms = new ArrayList<>();
+        for (int i = 0; i < formIds.length; i++) {
+            if (formIds[i].length() == 20) {
+                forms.add(usersService.queryFormByFormId(formIds[i]));
+            }
+        }
+        mess.setSuccess(true);
+        mess.setMessage("操作成功!");
+        mess.setCode(200);
+        mess.setResult(forms);
+        result = objectMapper.writeValueAsString(mess);
+        return result;
     }
 }

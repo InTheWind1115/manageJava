@@ -30,6 +30,7 @@ public class TokenVerifyFilter extends BasicAuthenticationFilter {
         super(authenticationManager);
         this.prop = prop;
         this.store = store;
+        store.setProp(this.prop);
     }
 
     /**
@@ -50,7 +51,6 @@ public class TokenVerifyFilter extends BasicAuthenticationFilter {
 
             // 将token放入store中
             store.setToken(header);
-            store.setProp(prop);
 
             //获取权限失败，会抛出异常
             UsernamePasswordAuthenticationToken authentication = getAuthentication(request);

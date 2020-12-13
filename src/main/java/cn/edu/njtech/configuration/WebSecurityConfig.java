@@ -42,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and().csrf().disable()
                 //允许不登陆就可以访问的方法，多个用逗号分隔
                 .authorizeRequests()
+                .antMatchers("/mywebsocket/**").permitAll()
                 .antMatchers("/product").hasAnyRole("USER")
                 .antMatchers("/manageuserinfo").permitAll()
                 .antMatchers("/manageusersinfo").permitAll()
